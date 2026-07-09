@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Wireless Auditing Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #0b0e14; color: #cdd6f4; padding:20px; }
+        h1 { color: #f9e2af; }
+        .status { background: #1e2430; padding:10px; border-radius:8px; margin:10px 0; }
+        .green { color: #a6e3a1; }
+        .red { color: #f38ba8; }
+    </style>
+    <script>
+        function fetchStatus() {
+            fetch('/api/status')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('handshake').innerHTML = data.handshake ? '✅ Captured' : '❌ Waiting';
+                    document.getElementById('files').innerHTML = data.files.join('<br>');
+                });
+        }
+        setInterval(fetchStatus, 3000);
+        window.onload = fetchStatus;
+    </script>
+</head>
+<body>
+    <h1>🔐 Wireless Auditing Toolkit</h1>
+    <div class="status">
+        <h3>Handshake Status</h3>
+        <p id="handshake">⏳ Checking...</p>
+    </div>
+    <div class="status">
+        <h3>Files in Directory</h3>
+        <p id="files"></p>
+    </div>
+</body>
+</html>
